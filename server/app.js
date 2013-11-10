@@ -39,8 +39,11 @@ var meetings = {
 	}
 };
 
-app.listen(process.env.PORT || 1337);
-var io = require('socket.io').listen(1338);
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+    console.log("Listening on " + port);
+});
+var io = require('socket.io').listen(5001);
 
 var SocketAPI = require('./socket-api.js');
 var RestAPI = require('./rest-api.js');

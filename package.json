@@ -3,6 +3,7 @@
   "description": "Blind scrum story point estimator",
   "version": "0.0.1",
   "dependencies": {
+    "node": "0.10.15",
     "express": "3.x",
     "node-uuid": "1.4.1",
     "socket.io": "0.9.16",
