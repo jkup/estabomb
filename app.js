@@ -1,33 +1,59 @@
 var express = require('express');
+var uuid = require('node-uuid');
 var app = express();
-
-var quotes = [
-  { author : 'Audrey Hepburn', text : "Nothing is impossible, the word itself says 'I'm possible'!"},
-  { author : 'Walt Disney', text : "You may not realize it when it happens, but a kick in the teeth may be the best thing in the world for you"},
-  { author : 'Unknown', text : "Even the greatest was once a beginner. Don’t be afraid to take that first step."},
-  { author : 'Neale Donald Walsch', text : "You are afraid to die, and you’re afraid to live. What a way to exist."}
-];
 
 app.use(express.bodyParser());
 
-app.get('/', function(req, res) {
-  res.json(quotes);
-});
+var meetings = {
+	"mashery": {
+		users: {
+			'1111-2222-3333-4444': {
+				name: "Kelly",
+				hasEstimated: false,
+				estimate: "medium",
+			},
+			'1111-2222-3333-5555': {
+				name: "Kelly",
+				hasEstimated: false,
+				estimate: "medium",
+			}
+		}
+	},
+	"medhub": {
+		users: {
+			"1111-2222-3333-4444": {
+				name: "Kelly",
+				hasEstimated: true,
+				estimate: "medium",
+			},
+			'1111-2222-3333-4445': {
+				name: "Kelly",
+				hasEstimated: false,
+				estimate: "medium",
+			}
+		}
+	}
+};
 
-app.get('/quote/random', function(req, res) {
-  var id = Math.floor(Math.random() * quotes.length);
-  var q = quotes[id];
-  res.json(q);
-});
+app.get('/join/:id/:name', function(req, res) {
+	var id = req.params.id;
 
-app.get('/quote/:id', function(req, res) {
-  if(quotes.length <= req.params.id || req.params.id < 0) {
-    res.statusCode = 404;
-    return res.send('Error 404: No quote found');
-  }
+	// If the room doesn't exist
+	if(meetings[id] == undefined) {
+		//create a new room
+		meetings[id] = {users:{}};
+	}
 
-  var q = quotes[req.params.id];
-  res.json(q);
+	//TODO add user to meeting
+	var unique_id = uuid.v4();
+	var user = {
+		name: req.params.name,
+		hasEstimated: false,
+		estimate: ''
+	};
+
+	meetings[id].users[unique_id] = user;
+	return res.json(meetings[id]);
 });
 
 app.post('/quote', function(req, res) {
