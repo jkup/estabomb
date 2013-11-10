@@ -50,7 +50,7 @@ io.sockets.on('connection', function (socket) {
     };
 
     socket.on('join', function (data) {
-		var id = data.id;
+		var id = data.room;
 
 		// If the room doesn't exist, create it
 		if(meetings[id] == undefined) {
