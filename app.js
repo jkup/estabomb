@@ -45,13 +45,11 @@ io.sockets.on('connection', function (socket) {
 	socket.on('join', function (data) {
 		var id = data.id;
 
-		// If the room doesn't exist
+		// If the room doesn't exist, create it
 		if(meetings[id] == undefined) {
-			//create a new room
 			meetings[id] = {users:{}};
 		}
 
-		//TODO add user to meeting
 		var unique_id = uuid.v4();
 		var user = {
             id: unique_id,
@@ -61,7 +59,7 @@ io.sockets.on('connection', function (socket) {
 		};
 
 		meetings[id].users[unique_id] = user;
-		socket.emit('roomStatus', { room: meetings[id] });
+		io.sockets.emit('roomStatus', { room: meetings[id] });
 	});
 });
 
