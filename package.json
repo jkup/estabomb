@@ -8,6 +8,10 @@
     "socket.io": "0.9.16",
     "bower": "1.2.7"
   },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install"
   },

@@ -1,8 +1,22 @@
-var express = require('express');
-var app = express();
+var express = require('express'),
+    app = express(),
+    http = require('http'),
+    server = http.createServer(app),
+    io = require('socket.io').listen(server);
+
 app.use(express.logger());
-app.use(express.static(__dirname + '/../web'));
 app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.use(express.static(__dirname + '/../web'));
+
+app.configure('development', function() {
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('production', function() {
+    app.use(express.errorHandler());
+});
 
 var meetings = {
 	"mashery": {
@@ -40,10 +54,9 @@ var meetings = {
 };
 
 var port = process.env.PORT || 5000;
-app.listen(port, function() {
+server.listen(port, function() {
     console.log("Listening on " + port);
 });
-var io = require('socket.io').listen(5001);
 
 var SocketAPI = require('./socket-api.js');
 var RestAPI = require('./rest-api.js');
