@@ -5,8 +5,17 @@
     <title>Estabomb</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="http://a2lamp.com:1338/socket.io/socket.io.js"></script>
 </head>
 <body>
+    
+<script>
+    var socket = io.connect('http://a2lamp.com:1338');
+
+    socket.on('roomStatus', function (data) {
+        console.log(data);
+    });
+</script>
 
 <script type="text/x-handlebars">
 <div class="container">
@@ -27,7 +36,7 @@
         <input id="name">
         <label for="room">Room:</label>
         <input id="room">
-        <button {{action 'joinRoom'}}>Join Room</button>
+        <button class="btn btn-primary" {{action 'joinRoom'}}>Join Room</button>
     </section>
 </script>
 <script type="text/x-handlebars" data-template-name="room">
@@ -44,11 +53,10 @@
     <button {{action 'randomEstimateComesIn'}}>Pretend we got an estimate from a player.</button>
 
     <!-- Modal -->
-    <div class="modal fade" id="estimationPanel" tabindex="-1" role="dialog" aria-labelledby="estimateLabel" aria-hidden="true">
+    <div class="modal fade" id="estimationPanel" tabindex="-1" role="dialog" aria-labelledby="estimateLabel" aria-hidden="true" data-backdrop="static">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="estimateLabel">Estimate</h4>
           </div>
           <div class="modal-body">
