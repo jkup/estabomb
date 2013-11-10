@@ -9,11 +9,13 @@ var meetings = {
 	"mashery": {
 		users: {
 			'1111-2222-3333-4444': {
+                id: '1111-2222-3333-4444',
 				name: "Kelly",
 				hasEstimated: false,
 				estimate: "medium",
 			},
 			'1111-2222-3333-5555': {
+                id: '1111-2222-3333-5555',
 				name: "Kelly",
 				hasEstimated: false,
 				estimate: "medium",
@@ -23,11 +25,13 @@ var meetings = {
 	"medhub": {
 		users: {
 			"1111-2222-3333-4444": {
+                id: '1111-2222-3333-4444',
 				name: "Kelly",
 				hasEstimated: true,
 				estimate: "medium",
 			},
 			'1111-2222-3333-4445': {
+                id: '1111-2222-3333-4445',
 				name: "Kelly",
 				hasEstimated: false,
 				estimate: "medium",
@@ -36,6 +40,7 @@ var meetings = {
 	}
 };
 
+// TODO remove user from meeting on disconnect.
 io.sockets.on('connection', function (socket) {
 	socket.on('join', function (data) {
 		var id = data.id;
@@ -49,6 +54,7 @@ io.sockets.on('connection', function (socket) {
 		//TODO add user to meeting
 		var unique_id = uuid.v4();
 		var user = {
+            id: unique_id,
 			name: data.name,
 			hasEstimated: false,
 			estimate: ''

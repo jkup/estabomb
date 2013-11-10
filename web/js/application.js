@@ -4,13 +4,37 @@ window.Estabomb = Ember.Application.create({
 
 Estabomb.ApplicationAdapter = DS.FixtureAdapter;
 
+// You can thank all of this room status stuff on:
+// http://stackoverflow.com/questions/14458287/how-to-fire-an-event-to-ember-from-another-framework
+
+Estabomb.ApplicationRoute = Em.Route.extend({
+    setupController: function (controller, model) {
+        Ember.Instrumentation.subscribe("roomStatus", {
+            before: function(name, timestamp, payload) {
+                console.log('Recieved ', name, ' at ' + timestamp + ' with payload: ', payload);
+                controller.send('roomStatus', payload);
+            },
+            after: function() {}
+        });
+    }
+});
+
+
+Estabomb.socket = io.connect('http://localhost:1338');
+
+Estabomb.socket.on('roomStatus', function (data) {
+    console.log(data);
+    Ember.Instrumentation.instrument("roomStatus", data.room);
+});
+
+
 Estabomb.LoginController = Ember.Controller.extend({
     actions: {
         joinRoom: function() {
             var name = $('#name').val();
             var room = $('#room').val();
             
-            socket.emit('join', {
+            Estabomb.socket.emit('join', {
                 'name': name,
                 'room': room
             });
@@ -65,6 +89,23 @@ Estabomb.RoomController = Ember.ArrayController.extend({
                     hasEstimated: false,
                     estimate: estimates[estimate_idx]
                 });
+            });
+        },
+
+        roomStatus: function(room) {
+            console.log('in controller', data);
+
+            var store = this.store;
+            var players = this.get('model');
+
+            room.users.forEach(function(player) {
+                // @TODO Handle when players leave ... no accounting here.
+                var p = players.findBy('id', player.id)
+                if (p) {
+                    store.update('player', player);
+                } else {
+                    store.push('player', player);
+                }
             });
         }
     }
