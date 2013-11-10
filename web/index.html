@@ -5,8 +5,17 @@
     <title>Estabomb</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="http://a2lamp.com:1338/socket.io/socket.io.js"></script>
 </head>
 <body>
+    
+<script>
+    var socket = io.connect('http://a2lamp.com:1338');
+
+    socket.on('roomStatus', function (data) {
+        console.log(data);
+    });
+</script>
 
 <script type="text/x-handlebars">
 <div class="container">

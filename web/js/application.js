@@ -7,7 +7,12 @@ Estabomb.LoginController = Ember.Controller.extend({
         joinRoom: function() {
             var name = $('#name').val();
             var room = $('#room').val();
-            console.log('Logging in...', [name, room]);
+            
+            socket.emit('join', {
+                'name': name,
+                'room': room
+            });
+
             this.transitionToRoute('room', 1);
         }
     }
