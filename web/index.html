@@ -38,20 +38,12 @@
         </li>
         {{/each}}
     </ul>
-    <ul class="options">
-        <li><a {{action 'estimate' 'S'}}>S</a></li>
-        <li><a {{action 'estimate' 'M'}}>M</a></li>
-        <li><a {{action 'estimate' 'L'}}>L</a></li>
-        <li><a {{action 'estimate' 'XL'}}>XL</a></li>
-    </ul>
 
     <!-- Button trigger modal -->
-    <button class="btn btn-primary" data-toggle="modal" data-target="#estimate">
-      Launch demo modal
-    </button>
+    <button {{action 'newEstimate'}}>Pretend We Started A New Estimate Until Jason and Jonathan get things going.</button>
 
     <!-- Modal -->
-    <div class="modal fade" id="estimate" tabindex="-1" role="dialog" aria-labelledby="estimateLabel" aria-hidden="true">
+    <div class="modal fade" id="estimationPanel" tabindex="-1" role="dialog" aria-labelledby="estimateLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -60,10 +52,10 @@
           </div>
           <div class="modal-body">
                 <ul class="options">
-                    <li><a href="#">S</a></li>
-                    <li><a href="#">M</a></li>
-                    <li><a href="#">L</a></li>
-                    <li><a href="#">XL</a></li>
+                    <li><a {{action 'estimate' 'S'}}>S</a></li>
+                    <li><a {{action 'estimate' 'M'}}>M</a></li>
+                    <li><a {{action 'estimate' 'L'}}>L</a></li>
+                    <li><a {{action 'estimate' 'XL'}}>XL</a></li>
                 </ul>
           </div>
         </div><!-- /.modal-content -->

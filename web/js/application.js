@@ -19,13 +19,17 @@ Estabomb.RoomController = Ember.ArrayController.extend({
     actions: {
         estimate: function(estimate) {
             console.log(estimate);
-            $('.options').css('display', 'none');
             this.set('hasEstimated', true);
+            $('#estimationPanel').modal('hide')
         },
 
         reset: function() {
             $('.options').css('display', 'block');
             this.set('hasEstimated', false);
+        },
+
+        newEstimate: function() {
+            $('#estimationPanel').modal('show');
         }
     }
 });
