@@ -13,6 +13,6 @@ Setup
 To set up the project to test, there are two steps:
 
 - `npm install` will get the dependencies (including automatically running bower install)
-- `node app.js` will start the server you need to see it work.
+- `node server/app.js` will start the server you need to see it work.
 
 After that, open `web/index.html` in your browser and you can start to see things working!
