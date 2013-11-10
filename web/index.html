@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Estabomb</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script type="text/x-handlebars" data-template-name="login">
+    <section class="login">
+        <label for="name">Name:</label>
+        <input id="name">
+        <label for="room">Room:</label>
+        <input id="room">
+        <button>Join Room</button>
+        {{#link-to 'room' 1}}Join Room{{/link-to}}
+    </section>
+</script>
+<script type="text/x-handlebars" data-template-name="room">
+    <ul class="players">
+        {{#each}}
+        <li {{bind-attr class="hasEstimated:estimated"}}>
+            {{name}}<br />{{estimate}}
+        </li>
+        {{/each}}
+    </ul>
+    <ul class="options">
+        <li><a href="#">S</a></li>
+        <li><a href="#">M</a></li>
+        <li><a href="#">L</a></li>
+        <li><a href="#">XL</a></li>
+    </ul>
+</script>
+
+<script src="js/libs/jquery-1.10.2.min.js"></script>
+<script src="js/libs/handlebars-1.0.0.js"></script>
+<script src="js/libs/ember.js"></script>
+<script src="js/libs/ember-data.js"></script>
+
+<script src="js/application.js"></script>
+<script src="js/router.js"></script>
+<script src="js/models/player.js"></script>
+</body>
+</html>
