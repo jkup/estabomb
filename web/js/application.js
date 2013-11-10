@@ -6,10 +6,16 @@ window.Estabomb = Ember.Application.create({
 
 // roomStatus is essentially a datastore update function, so lets
 // treat it like that
+Estabomb.initializer({
+    name: "injectStoreToo",
+
+    initialize: function(container, application) {
+        application.inject('adapter', 'store', 'store:main');
+    }
+});
 Estabomb.ApplicationAdapter = DS.FixtureAdapter.extend({
     init: function() {
         var self = this;
-        this._super();
         socket.on('roomStatus', function(data) {
             self.updateRoomStatus(data.room);
         });
@@ -19,8 +25,14 @@ Estabomb.ApplicationAdapter = DS.FixtureAdapter.extend({
     },
 
     updateRoomStatus: function(room) {
-        console.log('update', room);
-
+        this.store.unloadAll('player');
+        for (var id in room.users) {
+            if (this.store.hasRecordForId('player', id)) {
+                this.store.update('player', room.users[id]);
+            } else {
+                this.store.push('player', room.users[id]);
+            }
+        }
     },
 
     removePlayer: function(player) {
