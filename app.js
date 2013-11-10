@@ -52,9 +52,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('join', function (data) {
 		var id = data.id;
 
-		// If the room doesn't exist
+		// If the room doesn't exist, create it
 		if(meetings[id] == undefined) {
-			//create a new room
 			meetings[id] = {users:{}};
 		}
 
@@ -69,8 +68,7 @@ io.sockets.on('connection', function (socket) {
 		};
 
 		meetings[id].users[socketUser.id] = user;
-		socket.emit('roomStatus', { room: meetings[id] });
-        setInterval(function() {socket.emit('roomStatus', { room: meetings[id] });}, 1000);
+		io.sockets.emit('roomStatus', { room: meetings[id] });
 	});
     socket.on('disconnect', function() { socket.emit("playerPart", {player: socketUser}); }) ;
 });
