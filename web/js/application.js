@@ -30,6 +30,9 @@ Estabomb.RoomController = Ember.ArrayController.extend({
 
         newEstimate: function() {
             $('#estimationPanel').modal('show');
+        },
+
+        randomEstimateComesIn: function() {
         }
     }
 });
