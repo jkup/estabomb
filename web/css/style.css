@@ -1,0 +1,24 @@
+.estimated {
+    background-color: green;
+}
+
+.players li {
+    display: inline-block;
+    width: 150px;
+    border: 1px solid black;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.options li {
+    display: inline-block;
+}
+.options li a {
+    display: inline-block;
+    border: 1px solid black;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+
+}
