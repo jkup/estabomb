@@ -44,7 +44,7 @@ SocketAPI.prototype.connect = function() {
         socket.on('beginEstimating', function() {
             io.sockets.in(room.name).emit('getEstimate');
             room.estimating = true;
-            
+
             sendRoomStatus(room);
         });
 
