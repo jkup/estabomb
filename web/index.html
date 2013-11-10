@@ -3,9 +3,24 @@
 <head>
     <meta charset="utf-8">
     <title>Estabomb</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<script type="text/x-handlebars">
+<div class="container">
+    <div class="page-header">
+      <h1>Estabomb <small>Story Point Estimator</small></h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            {{outlet}}
+        </div>
+    </div>
+</div>
+</script>
+
 <script type="text/x-handlebars" data-template-name="login">
     <section class="login">
         <label for="name">Name:</label>
@@ -30,12 +45,39 @@
         <li><a {{action 'estimate' 'L'}}>L</a></li>
         <li><a {{action 'estimate' 'XL'}}>XL</a></li>
     </ul>
+
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#estimate">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="estimate" tabindex="-1" role="dialog" aria-labelledby="estimateLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="estimateLabel">Estimate</h4>
+          </div>
+          <div class="modal-body">
+                <ul class="options">
+                    <li><a href="#">S</a></li>
+                    <li><a href="#">M</a></li>
+                    <li><a href="#">L</a></li>
+                    <li><a href="#">XL</a></li>
+                </ul>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 </script>
 
 <script src="js/libs/jquery-1.10.2.min.js"></script>
 <script src="js/libs/handlebars-1.0.0.js"></script>
 <script src="js/libs/ember.js"></script>
 <script src="js/libs/ember-data.js"></script>
+<script src="js/libs/bootstrap.min.js"></script>
 
 <script src="js/application.js"></script>
 <script src="js/router.js"></script>
