@@ -1,0 +1,24 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@1.2.10
+3 info using node@v0.8.19
+4 verbose read json /var/www/api/package.json
+5 error install Couldn't read dependencies
+6 error Error: Invalid name: "Codename: estabomb"
+6 error     at validName (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:563:40)
+6 error     at final (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:340:27)
+6 error     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:140:33
+6 error     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:48:11)
+6 error     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:320:48
+6 error     at fs.js:117:20
+6 error     at Object.oncomplete (fs.js:297:15)
+7 error If you need help, you may report this log at:
+7 error     <http://github.com/isaacs/npm/issues>
+7 error or email it to:
+7 error     <npm-@googlegroups.com>
+8 error System Linux 3.9.3-x86-linode52
+9 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install"
+10 error cwd /var/www/api
+11 error node -v v0.8.19
+12 error npm -v 1.2.10
+13 verbose exit [ 1, true ]
