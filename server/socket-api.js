@@ -1,45 +1,63 @@
 var uuid = require('node-uuid');
+var extend = require('util')._extend;
 
-var SocketAPI = function(io, meetings) {
+var SocketAPI = function(io, rooms) {
     this.io = io;
-    this.meetings = meetings;
+    this.rooms = rooms;
 };
+
 SocketAPI.prototype.connect = function() {
     var io = this.io;
-    var meetings = this.meetings;
+    var rooms = this.rooms;
+    var connections = [];
 
-    io.sockets.on('connection', function (socket) {
+    io.sockets.on('connection', function(socket) {
 
-        // Let's just make a user record here
-        var socketUser = {
+        var user = {
             id: uuid.v4(),
-            name: null
+            name: null,
+            hasEstimated: false,
+            estimate: ''
         };
 
-        socket.on('join', function (data) {
-            var id = data.room;
+        socket.on('join', function(data) {
+            var room = getRoom(data.room);
 
+            user.name = data.name;
+
+            room.users[user.id] = user;
+
+            sendRoomStatus(room);
+        });
+
+        socket.on('disconnect', function() {
+            var user =
+            io.sockets.emit("playerPart", { user: {}});
+        });
+
+        function getRoom(room) {
             // If the room doesn't exist, create it
-            if(meetings[id] == undefined) {
-                meetings[id] = {users:{}};
+            if(rooms[room] == undefined) {
+                rooms[room] = {name: room, users:{}, estimating: false};
             }
 
-            // assign the name to the socket user
-            socketUser.name = data.name;
+            return rooms[room];
+        }
 
-            var user = {
-                id: socketUser.id,
-                name: data.name,
-                hasEstimated: false,
-                estimate: ''
-            };
+        function sendRoomStatus(room)
+        {
+            var roomToSend = rooms[room];
 
-            meetings[id].users[socketUser.id] = user;
-            io.sockets.emit('roomStatus', { room: meetings[id] });
-        });
-        socket.on('disconnect', function() { socket.emit("playerPart", {player: socketUser}); }) ;
+            if (rooms[room].estimating) {
+                var redactedRoom = extend({}, roomToSend);
+                redactedRoom.users = extend({}, redactedRoom.users);
+                redactedRoom.users.forEach(function(user) { user.estimate = '' });
+                roomToSend = redactedRoom;
+            }
+
+            io.sockets.emit('roomStatus', { room: roomToSend });
+        }
     });
-
-}
+};
 
 module.exports = SocketAPI;
