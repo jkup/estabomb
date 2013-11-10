@@ -38,17 +38,16 @@ SocketAPI.prototype.connect = function() {
         function getRoom(room) {
             // If the room doesn't exist, create it
             if(rooms[room] == undefined) {
-                rooms[room] = {name: room, users:{}, estimating: false};
+                rooms[room] = {users:{}, estimating: false};
             }
-
             return rooms[room];
         }
 
         function sendRoomStatus(room)
         {
-            var roomToSend = rooms[room];
+            var roomToSend = room;
 
-            if (rooms[room].estimating) {
+            if (room.estimating) {
                 var redactedRoom = extend({}, roomToSend);
                 redactedRoom.users = extend({}, redactedRoom.users);
                 redactedRoom.users.forEach(function(user) { user.estimate = '' });
