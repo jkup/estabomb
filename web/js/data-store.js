@@ -13,22 +13,26 @@ Estabomb.ApplicationAdapter = DS.FixtureAdapter.extend({
             self.updateRoomStatus(data.room);
         });
         socket.on('playerPart', function(data) {
-            self.removePlayer(data.player);
+            self.removePlayer(data.user);
         });
     },
 
     updateRoomStatus: function(room) {
         this.store.unloadAll('player');
         for (var id in room.users) {
-            if (this.store.hasRecordForId('player', id)) {
-                this.store.update('player', room.users[id]);
+            if (this.store.hasRecordForId(Estabomb.Player, id)) {
+                this.store.update(Estabomb.Player, room.users[id]);
             } else {
-                this.store.push('player', room.users[id]);
+                this.store.push(Estabomb.Player, room.users[id]);
             }
         }
     },
 
     removePlayer: function(player) {
-
+        if (this.store.hasRecordForId(Estabomb.Player, player.id)) {
+            var p = this.store.typeMapFor(Estabomb.Player).idToRecord[player.id];
+            p.deleteRecord();
+            p.save();
+        }
     }
 });

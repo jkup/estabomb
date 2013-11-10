@@ -29,6 +29,10 @@ Estabomb.RoomController = Ember.ArrayController.extend({
             $('#estimationPanel').modal('show');
         },
 
+        beginEstimating: function() {
+            socket.emit('beginEstimating');
+        },
+
         mockEstimate: function() {
             var players = this.get('model')
             var player = players.findBy('hasEstimated', false);
