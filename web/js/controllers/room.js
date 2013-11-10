@@ -5,7 +5,8 @@ Estabomb.RoomRoute = Ember.Route.extend({
             this.transitionTo('login');
         }
     },
-    setupController: function (controller, model) {
+    setupController: function(controller, model) {
+        controller.set('model', model);
         Ember.Instrumentation.subscribe("getEstimate", {
             before: function(name, timestamp, payload) {
                 console.log('Recieved ', name, ' at ' + timestamp + ' with payload: ', payload);
@@ -19,7 +20,7 @@ Estabomb.RoomRoute = Ember.Route.extend({
     }
 });
 
-socket.on('getEstimate', function() {
+socket.on('getEstimate', function(context) {
     Ember.Instrumentation.instrument("getEstimate", context);
 });
 
@@ -30,6 +31,7 @@ Estabomb.RoomController = Ember.ArrayController.extend({
         estimate: function(estimate) {
             console.log(estimate);
             this.set('hasEstimated', true);
+            socket.emit('estimate', estimate);
             $('#estimationPanel').modal('hide')
         },
 
@@ -39,6 +41,7 @@ Estabomb.RoomController = Ember.ArrayController.extend({
         },
 
         getEstimate: function() {
+            console.log('get estimate');
             $('#estimationPanel').modal('show');
         },
 

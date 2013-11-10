@@ -45,7 +45,12 @@ SocketAPI.prototype.connect = function() {
             io.sockets.in(room.name).emit('getEstimate');
         });
 
+        socket.on('estimate', function(data) {
+            user.hasEstimated = true;
+            user.estimate = data;
 
+            sendRoomStatus(room);
+        });
 
         function getRoom(roomName) {
             // If the room doesn't exist, create it
@@ -56,15 +61,36 @@ SocketAPI.prototype.connect = function() {
             return rooms[roomName];
         }
 
+        function isRoomStillEstimating(room) {
+            var finished = true;
+
+            for(var i in room.users) {
+                if (room.users[i].hasEstimated === false) {
+                    finished = false;
+                    break;
+                }
+            }
+
+            return !finished;
+        }
+
         function sendRoomStatus(room)
         {
             var roomToSend = room;
 
+            roomToSend.estimating = isRoomStillEstimating(room);
+
             if (roomToSend.estimating) {
                 var redactedRoom = extend({}, roomToSend);
                 redactedRoom.users = extend({}, redactedRoom.users);
-                redactedRoom.users.forEach(function(user) { user.estimate = '' });
+                for(var i in redactedRoom.users) {
+                    redactedRoom.users[i].estimate = '';
+                }
                 roomToSend = redactedRoom;
+            } else {
+                for (var i in roomToSend.users) {
+                    roomToSend.users[i].hasEstimated = false;
+                }
             }
 
             io.sockets.in(roomToSend.name).emit('roomStatus', { room: roomToSend });
