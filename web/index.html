@@ -26,14 +26,15 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="login">
-    <section class="login">
+    <form class="login">
         <label for="name">Name:</label>
-        <input id="name">
+        <input autofocus="" id="name" {{bind-attr value="name"}}>
         <label for="room">Room:</label>
-        <input id="room">
-        <button class="btn btn-primary" {{action 'joinRoom'}}>Join Room</button>
-    </section>
+        <input id="room" {{bind-attr value="room"}}>
+        <input type="submit" class="btn btn-primary" {{action 'joinRoom'}} value="Join Room" />
+    </form>
 </script>
+
 <script type="text/x-handlebars" data-template-name="room">
     <ul class="players">
         {{#each}}

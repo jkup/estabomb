@@ -10,43 +10,48 @@ Estabomb.ApplicationAdapter = DS.FixtureAdapter.extend({
     init: function() {
         var self = this;
         this._super();
-        socket.on('roomStatus', function(room) {
-            console.log('socket roomStatus', room);
-            self.updateRoomStatus(room);
+        socket.on('roomStatus', function(data) {
+            self.updateRoomStatus(data.room);
+        });
+        socket.on('playerPart', function(data) {
+            self.removePlayer(data.player);
         });
     },
 
     updateRoomStatus: function(room) {
         console.log('update', room);
+
+    },
+
+    removePlayer: function(player) {
+
     }
 });
 
 Estabomb.LoginController = Ember.Controller.extend({
+    room: function() {
+        return Estabomb.getWithDefault('room', null)
+    }.property(),
+
     actions: {
         joinRoom: function() {
-            this.transitionToRoute('room', 1);
-
             var name = $('#name').val();
             var room = $('#room').val();
-            
+
+            Estabomb.set('name', name);
+
             socket.emit('join', {
                 'name': name,
                 'room': room
             });
 
+            this.transitionToRoute('room', room);
         }
     }
 });
 
 Estabomb.RoomController = Ember.ArrayController.extend({
     // initial value
-    setup: function(controller, data) {
-        self = this;
-        socket.on('roomStatus', function(room) {
-            console.log('socket roomStatus', room);
-            self.controllerFor('room').roomStatus(room);
-        });
-    },
     hasEstimated: false,
     actions: {
         estimate: function(estimate) {

@@ -4,6 +4,12 @@ Estabomb.Router.map(function () {
 });
 
 Estabomb.RoomRoute = Ember.Route.extend({
+    beforeModel: function(transition) {
+        if (Estabomb.getWithDefault('name', null) == null) {
+            Estabomb.set('room', transition.params.room_id);
+            this.transitionTo('login');
+        }
+    },
     model: function () {
         return this.store.find('player');
     }
