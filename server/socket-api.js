@@ -43,11 +43,15 @@ SocketAPI.prototype.connect = function() {
 
         socket.on('beginEstimating', function() {
             io.sockets.in(room.name).emit('getEstimate');
+            room.estimating = true;
+            
+            sendRoomStatus(room);
         });
 
         socket.on('estimate', function(data) {
+            console.log(data);
             user.hasEstimated = true;
-            user.estimate = data;
+            room.users[user.id].estimate = data;
 
             sendRoomStatus(room);
         });
@@ -80,11 +84,22 @@ SocketAPI.prototype.connect = function() {
 
             roomToSend.estimating = isRoomStillEstimating(room);
 
+            console.log(room);
+
             if (roomToSend.estimating) {
-                var redactedRoom = extend({}, roomToSend);
-                redactedRoom.users = extend({}, redactedRoom.users);
-                for(var i in redactedRoom.users) {
-                    redactedRoom.users[i].estimate = '';
+                var redactedRoom = {
+                    name: roomToSend.name,
+                    estimating: true,
+                    users: {}
+                };
+                for(var i in roomToSend.users) {
+                    var u = roomToSend.users[i];
+                    redactedRoom.users[i] = {
+                        id: u.id,
+                        name: u.name,
+                        hasEstimated: u.hasEstimated,
+                        estimate: ''
+                    };
                 }
                 roomToSend = redactedRoom;
             } else {
@@ -92,6 +107,9 @@ SocketAPI.prototype.connect = function() {
                     roomToSend.users[i].hasEstimated = false;
                 }
             }
+
+            console.log(room);
+            console.log(roomToSend);
 
             io.sockets.in(roomToSend.name).emit('roomStatus', { room: roomToSend });
         }
