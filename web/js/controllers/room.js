@@ -1,7 +1,6 @@
 Estabomb.RoomRoute = Ember.Route.extend({
     beforeModel: function(transition) {
         if (Estabomb.getWithDefault('name', null) == null) {
-            console.log('params', transition.params);
             this.transitionTo('join', transition.params.room_id );
         }
     },
