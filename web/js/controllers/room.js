@@ -26,6 +26,9 @@ socket.on('getEstimate', function(context) {
 
 Estabomb.RoomController = Ember.ArrayController.extend({
     // initial value
+    joinUrl: function() {
+        return window.location+'/join';
+    }.property(),
     hasEstimated: false,
     actions: {
         estimate: function(estimate) {

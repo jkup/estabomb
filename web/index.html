@@ -53,7 +53,9 @@
     </ul>
 
     <!-- Button trigger modal -->
-    <button {{action 'beginEstimating'}}>Begin Estimating</button>
+    <button {{action 'beginEstimating'}}>Begin Estimating</button><br /><br />
+    <label for="join_url">URL to join room:</label>
+    <span id="join_url">{{joinUrl}}</span>
 
     <!-- Modal -->
     <div class="modal fade" id="estimationPanel" tabindex="-1" role="dialog" aria-labelledby="estimateLabel" aria-hidden="true" data-backdrop="static">
