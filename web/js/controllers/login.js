@@ -1,9 +1,5 @@
 // roomStatus is essentially a datastore update function, so lets
 Estabomb.LoginController = Ember.Controller.extend({
-    room: function() {
-        return Estabomb.getWithDefault('room', null)
-    }.property(),
-
     actions: {
         joinRoom: function() {
             var name = $('#name').val();

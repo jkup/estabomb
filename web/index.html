@@ -35,6 +35,14 @@
     </form>
 </script>
 
+<script type="text/x-handlebars" data-template-name="join">
+    <form class="join">
+        <label for="name">Name:</label>
+        <input autofocus="" id="name" {{bind-attr value="name"}}>
+        <input type="submit" class="btn btn-primary" {{action 'joinRoom'}} {{bind-attr value="joinRoomText"}} />
+    </form>
+</script>
+
 <script type="text/x-handlebars" data-template-name="room">
     <ul class="players">
         {{#each}}
@@ -65,7 +73,6 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
 </script>
 
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -77,6 +84,7 @@
 <script src="js/application.js"></script>
 <script src="js/data-store.js"></script>
 <script src="js/controllers/login.js"></script>
+<script src="js/controllers/join.js"></script>
 <script src="js/controllers/room.js"></script>
 <script src="js/router.js"></script>
 <script src="js/models/player.js"></script>
