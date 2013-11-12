@@ -13,7 +13,8 @@
     "npm": "1.2.x"
   },
   "scripts": {
-    "postinstall": "./node_modules/.bin/bower install"
+    "postinstall": "./node_modules/.bin/bower install",
+    "start": "node server/app.js"
   },
   "main": "./server/app.js"
 }
