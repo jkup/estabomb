@@ -63,7 +63,7 @@ Estabomb.RoomController = Ember.ArrayController.extend({
         },
 
         mockAllEstimatesSubmitted: function() {
-            var estimates = ['S', 'M', 'L', 'XL'];
+            var estimates = ['1', '2', '3', '5', '8', '11', '20', '?'];
 
             var players = this.get('model');
 
